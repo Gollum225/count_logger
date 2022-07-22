@@ -24,4 +24,12 @@ class Persistence {
 
   }
 
+  int getCount() {
+    return 0;
+  }
+
+  List getEvents() {
+    return [];
+  }
+
 }
