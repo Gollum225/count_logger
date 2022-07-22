@@ -20,15 +20,22 @@ class Persistence {
     _sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  safe(GENERISCH) async {
-
+  safe(List newEvents) async {
+    //TODO
+    //eventliste.addAll(newEvents);
+  }
+  set(int counter) {
+    //TODO
+    //counter = counter;
   }
 
   int getCount() {
+    //TODO
     return 0;
   }
 
   List getEvents() {
+    //TODO
     return [];
   }
 
