@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// oder geschrieben werden.
 ///
 /// @author Niklas Weber
-/// @version 0.1
+/// @version 1.0
 class Persistence {
   static final Persistence _instance = Persistence._internal();
   late SharedPreferences _sharedPreferences;
@@ -18,6 +18,10 @@ class Persistence {
 
   init() async {
     _sharedPreferences = await SharedPreferences.getInstance();
+  }
+
+  safe(GENERISCH) async {
+
   }
 
 }
