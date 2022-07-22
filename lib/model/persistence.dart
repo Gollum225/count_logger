@@ -1,3 +1,4 @@
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Speichert Daten persistent
@@ -7,8 +8,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// @author Niklas Weber
 /// @version 1.0
 class Persistence {
+  static const String historyTableName = "history";
   static final Persistence _instance = Persistence._internal();
   late SharedPreferences _sharedPreferences;
+  late var history;
 
   factory Persistence() {
     return _instance;
@@ -17,26 +20,22 @@ class Persistence {
   Persistence._internal();
 
   init() async {
+    await Hive.initFlutter();
+    history = await Hive.openBox(historyTableName);
     _sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  safe(List newEvents) async {
-    //TODO
-    //eventliste.addAll(newEvents);
-  }
-  set(int counter) {
-    //TODO
-    //counter = counter;
+  add<T>(String tableName, T objectToAdd) {
+    history.put(objectToAdd);
   }
 
   int getCount() {
-    //TODO
     return 0;
   }
 
-  List getEvents() {
-    //TODO
-    return [];
+  List<T> getObjects<T>(String tableName) {
+    final list = history.values;
+    return list;
   }
 
 }
