@@ -13,7 +13,10 @@ class Counter {
     return _singleton;
   }
 
-  Counter._internal();
+  Counter._internal() {
+
+
+  }
 
 
   add(DateTime time) {
