@@ -1,13 +1,21 @@
-import 'package:count_logger/model/persistence/database.dart';
+import 'persistence/database.dart';
+import 'package:hive/hive.dart';
+
+part '../generated/model/counter.g.dart';
 
 /// Hält die Gesamtanzahl an Counts und die Count Historie.
 ///
 /// @author Colin Begero
 /// @version 1.0
+
+@HiveType(typeId: 3)
 class Counter {
   static final Counter _singleton = Counter._internal();
 
+  @HiveField(0)
   String _id = "";
+
+  @HiveField(1)
   String name = "";
 
   late List<DateTime> _newEvents;
