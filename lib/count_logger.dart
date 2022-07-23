@@ -2,6 +2,7 @@ import 'model/user.dart';
 import 'model/counter.dart';
 import 'model/persistence/database.dart';
 
+/// Erstellt mehrere Counter Objekte
 class CountLogger {
   static const String countersDatabase = "counters";
   late User user;
