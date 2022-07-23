@@ -66,6 +66,11 @@ class Database<E> {
     _database.add(objectToAdd);
   }
 
+  addAllObjects(List<E> objectsToAdd) {
+    _isLoaded();
+    _database.addAll(objectsToAdd);
+  }
+
   /// Löscht ein Objekt aus der Datenbank
   /// @param key: Schlüssel des zu löschenden Objekts
   /// @throws database_not_loaded_exception, wenn init() Methode noch nicht
