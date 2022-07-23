@@ -1,7 +1,7 @@
 import 'package:count_logger/exceptions/database_not_loaded_exception.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-/// Speichert Daten in einer Hive Datenbank
+/// Speichert Objekte in einer Hive Datenbank
 /// init() Methode muss aufgerufen werden, bevor das erste Mal Daten gelesen
 /// oder geschrieben werden.
 ///
@@ -17,6 +17,8 @@ class Database {
     _databaseName = name;
   }
 
+  /// Muss einmalig aufgerufen werden,
+  /// bevor eine der unteren Methoden verwendet wird
   init() async {
     if (!_hiveInitialised) {
       await Hive.initFlutter();
@@ -26,6 +28,9 @@ class Database {
     _databaseLoaded = true;
   }
 
+  /// Gibt eine Liste aus allen Objekten in der Datenbank zurück
+  /// @throws database_not_loaded_exception, wenn init() Methode noch nicht
+  /// aufgerufen wurde
   List getObjects<T>() {
     _isLoaded();
     final list = _database.values.toList();
@@ -33,11 +38,22 @@ class Database {
   }
 
   /// Fügt ein neues Objekt in die Datenbank ein
+  /// @param key: Schlüssel unter dem das Objekt abgelegt werden soll
+  /// @param objectToAdd: Objekt das hinzugefügt werden soll
   /// @throws database_not_loaded_exception, wenn init() Methode noch nicht
   /// aufgerufen wurde
   addObject<T>(T key, T objectToAdd) {
     _isLoaded();
     _database.put(key, objectToAdd);
+  }
+
+  /// Löscht ein Objekt aus der Datenbank
+  /// @param key: Schlüssel des zu löschenden Objekts
+  /// @throws database_not_loaded_exception, wenn init() Methode noch nicht
+  /// aufgerufen wurde
+  deleteObject<T>(T key) {
+    _isLoaded();
+    _database.delete(key);
   }
 
   _isLoaded() {
