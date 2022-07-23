@@ -39,7 +39,7 @@ class Counter {
   add(DateTime time) {
     _counts++;
     _newEvents.add(time);
-    _database.addObject(time, null);
+    _database.addObject(time);
     _exceptionCheck();
   }
 

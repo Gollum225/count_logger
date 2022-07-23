@@ -13,9 +13,14 @@ class CountLogger {
   }
 
   init() async {
-    countersDB.init();
+    await countersDB.init();
     for (Counter counter in countersDB.getObjects()) {
       counters.add(counter);
     }
+  }
+
+  createCounter() {
+    Counter counter = Counter();
+    countersDB.addObject(counter);
   }
 }

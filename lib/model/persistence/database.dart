@@ -1,4 +1,6 @@
 import 'package:count_logger/exceptions/database_not_loaded_exception.dart';
+import 'package:count_logger/model/counter.dart';
+import 'package:count_logger/model/log_entry.dart';
 import 'package:count_logger/model/user.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -24,6 +26,8 @@ class Database<E> {
     if (!_hiveInitialised) {
       await Hive.initFlutter();
       Hive.registerAdapter(UserAdapter());
+      Hive.registerAdapter(CounterAdapter());
+      Hive.registerAdapter(LogEntryAdapter());
       _hiveInitialised = true;
     }
     _database = await Hive.openBox<E>(_databaseName);
@@ -52,9 +56,14 @@ class Database<E> {
   /// @param objectToAdd: Objekt das hinzugefügt werden soll
   /// @throws database_not_loaded_exception, wenn init() Methode noch nicht
   /// aufgerufen wurde
-  addObject<T>(T key, E objectToAdd) {
+  putObject<T>(T key, E objectToAdd) {
     _isLoaded();
     _database.put(key, objectToAdd);
+  }
+
+  addObject(E objectToAdd) {
+    _isLoaded();
+    _database.add(objectToAdd);
   }
 
   /// Löscht ein Objekt aus der Datenbank
