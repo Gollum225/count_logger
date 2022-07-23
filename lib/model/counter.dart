@@ -1,4 +1,4 @@
-import 'persistence.dart';
+import 'package:count_logger/model/persistence/database.dart';
 
 /// Hält die Gesamtanzahl an Counts und die Count Historie.
 ///
@@ -7,13 +7,16 @@ import 'persistence.dart';
 class Counter {
   static final Counter _singleton = Counter._internal();
 
+  String _id = "";
+  String name = "";
+
   late List<DateTime> _newEvents;
 
   /// Hält die Gesamtanzahl an Log Einträgen
   int _counts = 0;
 
   /// Hält Objekt, dass für persistente Speicherung verantwortlich ist
-  late Persistence _database;
+  late Database _database;
 
   /// Konstruktor
   factory Counter() {
@@ -21,20 +24,19 @@ class Counter {
   }
 
   Counter._internal() {
-    _database = Persistence();
+    _database = Database(_id);
     _database.init();
-    _counts = _database.getCount();
   }
 
   add(DateTime time) {
     _counts++;
     _newEvents.add(time);
-    _database.addObject(tableName, time);
+    _database.addObject(time, null);
     _exceptionCheck();
   }
 
   getEvents() {
-    List<DateTime> allEvents = _database.getObjects("history");
+    List allEvents = _database.getObjects();
     allEvents.addAll(_newEvents);
     return allEvents;
   }
@@ -44,14 +46,14 @@ class Counter {
   }
 
   deleteEvent(DateTime event) {
-    if (_database.getObjects("history").remove(event) || _newEvents.remove(event)) {
+    if (_database.getObjects().remove(event) || _newEvents.remove(event)) {
       _counts--;
     }
     _exceptionCheck();
   }
 
   _exceptionCheck() {
-    if (_counts != _database.getObjects("history").length) {
+    if (_counts != _database.getObjects().length) {
       throw Exception('Unevenly incremented variables, which should be the same');
     }
   }
