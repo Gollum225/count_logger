@@ -45,7 +45,7 @@ class Database<E> {
   /// Gibt eine Liste aus allen Objekten in der Datenbank zurück
   /// @throws database_not_loaded_exception, wenn init() Methode noch nicht
   /// aufgerufen wurde
-  List getObjects() {
+  List<E> getObjects() {
     _isLoaded();
     final list = _database.values.toList();
     return list;
