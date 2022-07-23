@@ -1,4 +1,4 @@
-import 'model/persistence.dart';
+import 'persistence.dart';
 
 /// Hält die Gesamtanzahl an Counts und die Count Historie.
 ///
@@ -7,12 +7,15 @@ import 'model/persistence.dart';
 class Counter {
   static final Counter _singleton = Counter._internal();
 
-  // late List<DateTime> _events;
   late List<DateTime> _newEvents;
-  int _counts = 0;
-  var _database;
 
-  ///Konstruktor
+  /// Hält die Gesamtanzahl an Log Einträgen
+  int _counts = 0;
+
+  /// Hält Objekt, dass für persistente Speicherung verantwortlich ist
+  late Persistence _database;
+
+  /// Konstruktor
   factory Counter() {
     return _singleton;
   }
@@ -26,11 +29,12 @@ class Counter {
   add(DateTime time) {
     _counts++;
     _newEvents.add(time);
+    _database.addObject(tableName, time);
     _exceptionCheck();
   }
 
   getEvents() {
-    List<DateTime> allEvents = _database.getEvents;
+    List<DateTime> allEvents = _database.getObjects("history");
     allEvents.addAll(_newEvents);
     return allEvents;
   }
@@ -40,22 +44,22 @@ class Counter {
   }
 
   deleteEvent(DateTime event) {
-    if (_database.getEvents().remove(event) || _newEvents.remove(event)) {
+    if (_database.getObjects("history").remove(event) || _newEvents.remove(event)) {
       _counts--;
     }
     _exceptionCheck();
   }
 
   _exceptionCheck() {
-    if (_counts != _database.getEvents().length) {
+    if (_counts != _database.getObjects("history").length) {
       throw Exception('Unevenly incremented variables, which should be the same');
     }
   }
 
   //neue Ereignisse in die Datenbank schreiben und die Liste leeren.
   writeToDatabase() {
-    _database.safe(_newEvents);
-    _newEvents = [];
+    //_database.safe(_newEvents);
+    //_newEvents = [];
   }
 
 }
