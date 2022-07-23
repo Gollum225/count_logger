@@ -80,6 +80,11 @@ class Database<E> {
     _database.delete(key);
   }
 
+  deleteObjectAtIndex(int index) {
+    _isLoaded();
+    _database.deleteAt(index);
+  }
+
   _isLoaded() {
     if (!_databaseLoaded) {
       throw DatabaseNotLoadedException(_databaseName);
