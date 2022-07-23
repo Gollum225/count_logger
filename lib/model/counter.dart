@@ -10,15 +10,12 @@ part '../generated/model/counter.g.dart';
 
 @HiveType(typeId: 3)
 class Counter {
-  static final Counter _singleton = Counter._internal();
 
   @HiveField(0)
   String _id = "";
 
   @HiveField(1)
   String name = "";
-
-  late List<DateTime> _newEvents;
 
   /// Hält die Gesamtanzahl an Log Einträgen
   int _counts = 0;
@@ -27,49 +24,46 @@ class Counter {
   late Database _database;
 
   /// Konstruktor
-  factory Counter() {
-    return _singleton;
-  }
-
-  Counter._internal() {
+  Counter() {
     _database = Database(_id);
-    _database.init();
   }
 
+  /// Muss vor allen anderen Methoden aufgerufen werden.
+  init() async {
+    await _database.init();
+    _counts = _database.getObjects().length;
+  }
+
+  /// Fügt eine neue Zeit hinzu
   add(DateTime time) {
     _counts++;
-    _newEvents.add(time);
     _database.addObject(time);
     _exceptionCheck();
   }
 
+  /// Gibt eine Liste mit allen Events zurück.
   getEvents() {
-    List allEvents = _database.getObjects();
-    allEvents.addAll(_newEvents);
-    return allEvents;
+    return _database.getObjects();
   }
 
+  /// Gibt die an Events, die in der Datenbank sind.
   getCounts() {
     return _counts;
   }
 
+  /// Entfernt ein Element aus der Datenbank.
   deleteEvent(DateTime event) {
-    if (_database.getObjects().remove(event) || _newEvents.remove(event)) {
+    if (_database.deleteObject(event)) {
       _counts--;
     }
     _exceptionCheck();
   }
 
+  /// Prüft, ob der Counter richtig mitgezählt wurde und der Größe der
+  /// liste entspricht.
   _exceptionCheck() {
     if (_counts != _database.getObjects().length) {
       throw Exception('Unevenly incremented variables, which should be the same');
     }
   }
-
-  //neue Ereignisse in die Datenbank schreiben und die Liste leeren.
-  writeToDatabase() {
-    //_database.safe(_newEvents);
-    //_newEvents = [];
-  }
-
 }
