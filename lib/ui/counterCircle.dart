@@ -14,7 +14,7 @@ class _CounterCircleState extends State<CounterCircle> {
   void _incrementCounter() {
     setState(() {
       clicked++;
-      Vibration.vibrate(duration: 10);
+      Vibration.vibrate(duration: 30);
     });
   }
 
