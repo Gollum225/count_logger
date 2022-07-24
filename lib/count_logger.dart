@@ -2,6 +2,7 @@ import 'model/user.dart';
 import 'model/counter.dart';
 import 'model/persistence/database.dart';
 
+/// Main Klasse des Programms
 class CountLogger {
   static const String countersDatabase = "counters";
   late User user;
