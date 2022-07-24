@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart';
 
 class CounterCircle extends StatefulWidget {
   const CounterCircle({super.key});
@@ -13,6 +14,7 @@ class _CounterCircleState extends State<CounterCircle> {
   void _incrementCounter() {
     setState(() {
       clicked++;
+      Vibration.vibrate(duration: 10);
     });
   }
 
