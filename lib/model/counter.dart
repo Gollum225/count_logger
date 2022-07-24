@@ -47,7 +47,7 @@ class Counter {
   }
 
   /// Gibt die an Events, die in der Datenbank sind.
-  getCounts() {
+  int getCounts() {
     return _counts;
   }
 

@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
 
-class CounterCircle extends StatelessWidget {
-  const CounterCircle({required this.title, super.key});
+class CounterCircle extends StatefulWidget {
+  const CounterCircle({super.key});
 
-  final Widget title;
+  @override
+  State<CounterCircle> createState() => _CounterCircleState();
+}
+
+class _CounterCircleState extends State<CounterCircle> {
+  int clicked = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      clicked++;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,19 +25,24 @@ class CounterCircle extends StatelessWidget {
         color: Colors.orange,
         shape: BoxShape.circle,
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            '69',
-            style: Theme.of(context).textTheme.headline4,
-          ),
-          Text(
-            'Stuhl Rücker',
-            style: Theme.of(context).textTheme.bodyLarge
-          ),
-        ],
+      child: GestureDetector(
+        onLongPress:  () => {
+          _incrementCounter()
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              '$clicked',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            Text(
+                'Stuhl Rücker',
+                style: Theme.of(context).textTheme.bodyLarge
+            ),
+          ],
+        ),
       ),
     );
 

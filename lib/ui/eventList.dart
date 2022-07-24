@@ -6,7 +6,7 @@ class EventList extends StatelessWidget {
 
     static const EventBanner event1 = EventBanner(title: Text('first'));
     static const EventBanner event2 = EventBanner(title: Text('second'));
-    static const CounterCircle counter = CounterCircle(title: Text('second'));
+    static CounterCircle counter = CounterCircle();
 
   const EventList({Key? key}) : super(key: key);
 
@@ -51,7 +51,7 @@ class EventList extends StatelessWidget {
 
         return ListView(
           shrinkWrap: true,
-            children: const [counter],
+            children: [counter],
         );
 
     }
