@@ -18,17 +18,15 @@ class _CounterCircleState extends State<CounterCircle> {
 
   @override
   Widget build(BuildContext context) {
-    Widget bigCircle = Container(
-      width: 120.0,
-      height: 120.0,
-      decoration: const BoxDecoration(
-        color: Colors.orange,
-        shape: BoxShape.circle,
-      ),
-      child: GestureDetector(
-        onLongPress:  () => {
-          _incrementCounter()
-        },
+    Widget bigCircle = GestureDetector(
+      onTap: () => {_incrementCounter()},
+      child: Container(
+        width: 120.0,
+        height: 120.0,
+        decoration: const BoxDecoration(
+          color: Colors.black12,
+          shape: BoxShape.circle,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -37,10 +35,7 @@ class _CounterCircleState extends State<CounterCircle> {
               '$clicked',
               style: Theme.of(context).textTheme.headline4,
             ),
-            Text(
-                'Stuhl Rücker',
-                style: Theme.of(context).textTheme.bodyLarge
-            ),
+            Text('Stuhl Rücker', style: Theme.of(context).textTheme.bodyLarge),
           ],
         ),
       ),
